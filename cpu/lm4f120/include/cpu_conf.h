@@ -43,9 +43,9 @@ extern "C" {
 #include "stellaris_periph/timer.h"
 #include "stellaris_periph/pin_map.h"
 #include "stellaris_periph/uart.h"
+#include "stellaris_periph/ssi.h"
 #include "stellaris_periph/fpu.h"
 #include "stellaris_periph/rom.h"
-#include "periph/uart.h"
 
 #ifdef CPU_MODEL_LM4F120H5QR
 #include "vendor/lm4f120h5qr.h"
@@ -56,7 +56,7 @@ extern "C" {
  * @{
  */
 #define CPU_DEFAULT_IRQ_PRIO            (1U)
-#define CPU_IRQ_NUMOF                   (48U)
+#define CPU_IRQ_NUMOF                   (139U)
 #define CPU_FLASH_BASE                  FLASH_BASE
 /** @} */
 

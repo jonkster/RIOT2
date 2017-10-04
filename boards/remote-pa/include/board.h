@@ -17,7 +17,8 @@
  * @brief       Board specific definitions for the Re-Mote board prototype A
  *
  * @author      Hauke Petersen <hauke.petersen@fu-berlin.de>
- *              Antonio Lignan <alinan@zolertia.com>
+ * @author      Antonio Lignan <alinan@zolertia.com>
+ * @author      Sebastian Meiling <s@mlng.net>
  */
 
 #ifndef BOARD_H
@@ -60,6 +61,7 @@
  * @{
  */
 #define BTN0_PIN            GPIO_PIN(0, 3)
+#define BTN0_MODE           GPIO_IN_PU
 /** @} */
 
 /**
@@ -68,11 +70,10 @@
  * 2.4GHz RF switch controlled by SW
  * @{
  */
-#define RF_SWITCH_PORT      GPIO_D
-#define RF_SWITCH_PIN       (4)
-#define RF_SWITCH_EXTERNAL  (RF_SWITCH_PORT->DATA |= (1 << RF_SWITCH_PIN))
-#define RF_SWITCH_INTERNAL  (RF_SWITCH_PORT->DATA &= ~(1 << RF_SWITCH_PIN))
-#define RF_SWITCH_TOGGLE    (RF_SWITCH_PORT->DATA ^= (1 << RF_SWITCH_PIN))
+ #define RF_SWITCH_GPIO      GPIO_PIN(3, 4)
+ #define RF_SWITCH_SUB_GHZ   gpio_set(RF_SWITCH_GPIO)
+ #define RF_SWITCH_2_4_GHZ   gpio_clear(RF_SWITCH_GPIO)
+ #define RF_SWITCH_TOGGLE    gpio_toggle(RF_SWITCH_GPIO)
 /** @} */
 
 /**

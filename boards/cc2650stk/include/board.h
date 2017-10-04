@@ -16,6 +16,7 @@
  * @brief       Board configuration for the CC2650STK
  *
  * @author      Leon M. George <leon@georgemail.eu>
+ * @author      Sebastian Meiling <s@mlng.net>
  */
 
 #ifndef BOARD_H
@@ -28,18 +29,22 @@ extern "C" {
 #endif
 
 /**
- * @name   Xtimer configuration
+ * @name    xtimer configuration
  * @{
  */
-#define XTIMER_WIDTH                (16)
+#define XTIMER_WIDTH        (16)
+#define XTIMER_BACKOFF      (50)
+#define XTIMER_ISR_BACKOFF  (40)
 /** @} */
 
 /**
  * @name    On-board button configuration
  * @{
  */
-#define BUTTON1_DIO         GPIO_PIN(0, 4)
-#define BUTTON2_DIO         GPIO_PIN(0, 0)
+#define BTN0_PIN            GPIO_PIN(0, 4)
+#define BTN0_MODE           GPIO_IN_PU
+#define BTN1_PIN            GPIO_PIN(0, 0)
+#define BTN1_MODE           GPIO_IN_PU
 /** @} */
 
 /**

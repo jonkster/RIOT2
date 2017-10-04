@@ -17,6 +17,7 @@
  *              board
  *
  * @author      Thomas Eichinger <thomas.eichinger@fu-berlin.de>
+ * @author      Sebastian Meiling <s@mlng.net>
  */
 
 #ifndef BOARD_H
@@ -34,7 +35,7 @@ extern "C" {
  * @name    xtimer configuration
  * @{
  */
-#define XTIMER_DEV          TIMER_1
+#define XTIMER_DEV          TIMER_DEV(1)
 #define XTIMER_CHAN         (0)
 /** @} */
 
@@ -68,9 +69,9 @@ extern "C" {
  * @name    SW0 (Button) pin definitions
  * @{
  */
-#define BUTTON_PORT         PORT->Group[0]
-#define BUTTON_PIN          (28)
-#define BUTTON_GPIO         GPIO_PIN(0, BUTTON_PIN)
+#define BTN0_PORT           PORT->Group[0]
+#define BTN0_PIN            GPIO_PIN(0, 28)
+#define BTN0_MODE           GPIO_IN_PU
 /** @} */
 
 /**

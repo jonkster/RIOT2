@@ -29,7 +29,7 @@ extern "C" {
 #endif
 
 /**
- * @brief   Set default configuration parameters for the BMX280
+ * @name    Set default configuration parameters for the BMX280
  * @{
  */
 #ifndef BMX280_PARAM_I2C_DEV
@@ -77,19 +77,13 @@ static const bmx280_params_t bmx280_params[] =
  * for each device. Please be awar that the indexes are used in
  * auto_init_bmx280, so make sure the indexes match.
  */
-#if defined(MODULE_BME280)
-static const saul_reg_info_t bmx280_saul_reg_info[BMX280_NUMOF][3] =
-#else
-static const saul_reg_info_t bmx280_saul_reg_info[BMX280_NUMOF][2] =
-#endif
+static const saul_reg_info_t bmx280_saul_reg_info[BMX280_NUMOF] =
 {
-    {
-        { .name = "bmx280-temp" },
-        { .name = "bmx280-press" },
 #if defined(MODULE_BME280)
-        { .name = "bme280-humidity" },
+        { .name = "bme280" }
+#else
+        { .name = "bmp280" }
 #endif
-    },
 };
 
 #ifdef __cplusplus

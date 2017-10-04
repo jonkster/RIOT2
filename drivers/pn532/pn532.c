@@ -97,7 +97,7 @@ static void _nfc_event(void *dev)
     mutex_unlock(&((pn532_t *)dev)->trap);
 }
 
-void pn532_reset(pn532_t *dev)
+void pn532_reset(const pn532_t *dev)
 {
     assert(dev != NULL);
 
@@ -165,7 +165,7 @@ static void reverse(char *buff, unsigned len)
 }
 #endif
 
-static int _write(pn532_t *dev, char *buff, unsigned len)
+static int _write(const pn532_t *dev, char *buff, unsigned len)
 {
     int ret = -1;
 
@@ -197,7 +197,7 @@ static int _write(pn532_t *dev, char *buff, unsigned len)
     return ret;
 }
 
-static int _read(pn532_t *dev, char *buff, unsigned len)
+static int _read(const pn532_t *dev, char *buff, unsigned len)
 {
     int ret = -1;
 
@@ -231,7 +231,7 @@ static int _read(pn532_t *dev, char *buff, unsigned len)
     return ret;
 }
 
-static int send_cmd(pn532_t *dev, char *buff, unsigned len)
+static int send_cmd(const pn532_t *dev, char *buff, unsigned len)
 {
     unsigned pos, checksum;
 
@@ -271,7 +271,7 @@ static void wait_ready(pn532_t *dev)
 }
 
 /* Returns >0 payload len (or <0 received len but not as expected) */
-static int read_command(pn532_t *dev, char *buff, unsigned len, int expected_cmd)
+static int read_command(const pn532_t *dev, char *buff, unsigned len, int expected_cmd)
 {
     int r;
     unsigned j, fi, lp, lc;
@@ -379,10 +379,10 @@ int pn532_fw_version(pn532_t *dev, uint32_t *fw_ver)
     buff[BUFF_CMD_START] = CMD_FIRMWARE_VERSION;
 
     if (send_rcv(dev, buff, 0, 4) == 4) {
-        *fw_ver = (buff[0] << 24);  /* ic version */
-        *fw_ver += (buff[1] << 16); /* fw ver */
-        *fw_ver += (buff[2] << 8);  /* fw rev */
-        *fw_ver += (buff[3]);       /* feature support */
+        *fw_ver =  ((uint32_t)buff[0] << 24);   /* ic version */
+        *fw_ver += ((uint32_t)buff[1] << 16);   /* fw ver */
+        *fw_ver += ((uint32_t)buff[2] << 8);    /* fw rev */
+        *fw_ver += (buff[3]);                   /* feature support */
         ret = 0;
     }
 

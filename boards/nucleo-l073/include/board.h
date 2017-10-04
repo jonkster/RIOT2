@@ -9,7 +9,7 @@
 
 /**
  * @defgroup    boards_nucleo-l073 Nucleo-L073
- * @ingroup     boards
+ * @ingroup     boards_nucleo
  * @brief       Board specific files for the nucleo-l073 board
  * @{
  *
@@ -34,8 +34,6 @@ extern "C" {
  * @name    xtimer configuration
  * @{
  */
-#define XTIMER_DEV          TIMER_DEV(0)
-#define XTIMER_CHAN         (0)
 #define XTIMER_WIDTH        (16)
 /** @} */
 

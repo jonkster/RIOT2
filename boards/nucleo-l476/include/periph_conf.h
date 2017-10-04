@@ -211,7 +211,7 @@ static const spi_conf_t spi_config[] = {
         .miso_pin = GPIO_PIN(PORT_A, 6),
         .sclk_pin = GPIO_PIN(PORT_A, 5),
         .cs_pin   = GPIO_UNDEF,
-        .af       = GPIO_AF0,
+        .af       = GPIO_AF5,
         .rccmask  = RCC_APB2ENR_SPI1EN,
         .apbbus   = APB2
     }
@@ -228,13 +228,6 @@ static const spi_conf_t spi_config[] = {
 /** @} */
 
 /**
- * @name    DAC configuration
- * @{
- */
-#define DAC_NUMOF           (0)
-/** @} */
-
-/**
  * @name    RTT configuration
  *
  * On the STM32Lx platforms, we always utilize the LPTIM1.
@@ -243,6 +236,13 @@ static const spi_conf_t spi_config[] = {
 #define RTT_NUMOF           (1)
 #define RTT_FREQUENCY       (1024U)             /* 32768 / 2^n */
 #define RTT_MAX_VALUE       (0x0000ffff)        /* 16-bit timer */
+/** @} */
+
+/**
+ * @name   RTC configuration
+ * @{
+ */
+#define RTC_NUMOF           (1)
 /** @} */
 
 #ifdef __cplusplus

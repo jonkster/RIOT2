@@ -38,7 +38,7 @@
  * pwm_set() function to change the duty cycle for a given channel. If you
  * want to disable the PWM generation again, simply call pwm_poweroff().
  *
- * @section     sec_pm (Low-) power implications
+ * ## (Low-)Power implications
  *
  * After initialization, the a PWM peripheral **should** be powered on and
  * active. When manually stopped using the pwm_poweroff() function, the PWM
@@ -73,34 +73,27 @@ extern "C" {
 
 /**
  * @brief   Default PWM access macro
- * @{
  */
 #ifndef PWM_DEV
 #define PWM_DEV(x)          (x)
 #endif
-/** @} */
 
 /**
  * @brief  Default PWM undefined value
- * @{
  */
 #ifndef PWM_UNDEF
 #define PWM_UNDEF           (UINT_MAX)
 #endif
-/** @} */
 
 /**
  * @brief   Default PWM type definition
- * @{
  */
 #ifndef HAVE_PWM_T
 typedef unsigned int pwm_t;
 #endif
-/** @} */
 
 /**
  * @brief   Default PWM mode definition
- * @{
  */
 #ifndef HAVE_PWM_MODE_T
 typedef enum {
@@ -109,7 +102,6 @@ typedef enum {
     PWM_CENTER          /*< use center aligned PWM */
 } pwm_mode_t;
 #endif
-/** @} */
 
 /**
  * @brief   Initialize a PWM device

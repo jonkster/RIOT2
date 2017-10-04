@@ -43,7 +43,7 @@ extern char _edata __attribute__((section("data")));
 void software_init_hook(void)
 {
 #ifdef FLASH_XIP
-    /* copy initialised data from its LMA to VMA */
+    /* copy initialized data from its LMA to VMA */
     memcpy(&_fdata, &_rom_data_copy, (int)&_edata - (int)&_fdata);
 #endif
 
@@ -59,10 +59,6 @@ void software_init_hook(void)
 void mips_start(void)
 {
     board_init();
-
-#if MODULE_NEWLIB
-#error "This Port is designed to work with the (newlib) C library provided with the mips sdk toolchain"
-#endif
 
     /* kernel_init */
     kernel_init();

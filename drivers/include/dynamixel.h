@@ -9,8 +9,8 @@
 /**
  * @defgroup    drivers_dynamixel Dynamixel driver
  * @ingroup     drivers_actuators
+ * @brief       Drivers for any device using dynamixel's servomotors communication bus
  *
- * This module contains drivers for any device using dynamixel's servomotors communication bus.
  * The bus is mainly used for servomotors, but a device can be anything : sensors, other actuators.
  *
  * @{
@@ -34,11 +34,11 @@
 extern "C" {
 #endif
 
-typedef uint8_t dynamixel_id_t; /**< device id type */
+typedef uint8_t dynamixel_id_t;    /**< device id type */
 typedef uint16_t dynamixel_addr_t; /**< register address type */
 
 /**
- * @brief Descriptor struct for a dynamixel device
+ * @brief   Descriptor struct for a dynamixel device
  */
 typedef struct {
     uart_half_duplex_t *stream; /**< the stream used */
@@ -56,7 +56,7 @@ enum {
 };
 
 /**
- * @brief Send a PING message to a device
+ * @brief   Send a PING message to a device
  *
  * @param[in] stream   the stream
  * @param[in] id       the device address
@@ -69,7 +69,7 @@ enum {
 int dynamixel_ping(uart_half_duplex_t *stream, dynamixel_id_t id);
 
 /**
- * @brief Initialize a Dynamixel device
+ * @brief   Initialize a Dynamixel device
  *
  * @param[out] device  the Dynamixel device
  * @param[in] stream   the stream
@@ -78,7 +78,7 @@ int dynamixel_ping(uart_half_duplex_t *stream, dynamixel_id_t id);
 void dynamixel_init(dynamixel_t *device, uart_half_duplex_t *stream, dynamixel_id_t id);
 
 /**
- * @brief Write to a device 8bits register
+ * @brief   Write to a device 8bits register
  *
  * @param[in] device   the Dynamixel device
  * @param[in] reg      the register to write
@@ -89,10 +89,10 @@ void dynamixel_init(dynamixel_t *device, uart_half_duplex_t *stream, dynamixel_i
  * @return             DYNAMIXEL_BUFFER_TOO_SMALL if buffer is too small for the message
  * @return             DYNAMIXEL_INVALID_MESSAGE if an invalid message was received
  */
-int dynamixel_write8(dynamixel_t *device, dynamixel_addr_t reg, uint8_t value);
+int dynamixel_write8(const dynamixel_t *device, dynamixel_addr_t reg, uint8_t value);
 
 /**
- * @brief Write to a device 16bits register
+ * @brief   Write to a device 16bits register
  *
  * @param[in] device   the Dynamixel device
  * @param[in] reg      the register to write
@@ -103,10 +103,10 @@ int dynamixel_write8(dynamixel_t *device, dynamixel_addr_t reg, uint8_t value);
  * @return             DYNAMIXEL_BUFFER_TOO_SMALL if buffer is too small for the message
  * @return             DYNAMIXEL_INVALID_MESSAGE if an invalid message was received
  */
-int dynamixel_write16(dynamixel_t *device, dynamixel_addr_t reg, uint16_t value);
+int dynamixel_write16(const dynamixel_t *device, dynamixel_addr_t reg, uint16_t value);
 
 /**
- * @brief Write to a device address
+ * @brief   Write to a device address
  *
  * @param[in] device   the Dynamixel device
  * @param[in] reg      the address to start write
@@ -118,10 +118,10 @@ int dynamixel_write16(dynamixel_t *device, dynamixel_addr_t reg, uint16_t value)
  * @return             DYNAMIXEL_BUFFER_TOO_SMALL if buffer is too small for the message
  * @return             DYNAMIXEL_INVALID_MESSAGE if an invalid message was received
  */
-int dynamixel_write(dynamixel_t *device, dynamixel_addr_t reg, const uint8_t *data, size_t length);
+int dynamixel_write(const dynamixel_t *device, dynamixel_addr_t reg, const uint8_t *data, size_t length);
 
 /**
- * @brief Read from a device 8bits register
+ * @brief   Read from a device 8bits register
  *
  * @param[in] device   the Dynamixel device
  * @param[in] reg      the register to read
@@ -132,10 +132,10 @@ int dynamixel_write(dynamixel_t *device, dynamixel_addr_t reg, const uint8_t *da
  * @return             DYNAMIXEL_BUFFER_TOO_SMALL if buffer is too small for the message
  * @return             DYNAMIXEL_INVALID_MESSAGE if an invalid message was received
  */
-int dynamixel_read8(dynamixel_t *device, dynamixel_addr_t reg, uint8_t *value);
+int dynamixel_read8(const dynamixel_t *device, dynamixel_addr_t reg, uint8_t *value);
 
 /**
- * @brief Read from a device 16bits register
+ * @brief   Read from a device 16bits register
  *
  * @param[in] device   the Dynamixel device
  * @param[in] reg      the register to read
@@ -146,10 +146,10 @@ int dynamixel_read8(dynamixel_t *device, dynamixel_addr_t reg, uint8_t *value);
  * @return             DYNAMIXEL_BUFFER_TOO_SMALL if buffer is too small for the message
  * @return             DYNAMIXEL_INVALID_MESSAGE if an invalid message was received
  */
-int dynamixel_read16(dynamixel_t *device, dynamixel_addr_t reg, uint16_t *value);
+int dynamixel_read16(const dynamixel_t *device, dynamixel_addr_t reg, uint16_t *value);
 
 /**
- * @brief Read from a device address
+ * @brief   Read from a device address
  *
  * @param[in] device   the Dynamixel device
  * @param[in] reg      the address to start read
@@ -161,7 +161,7 @@ int dynamixel_read16(dynamixel_t *device, dynamixel_addr_t reg, uint16_t *value)
  * @return             DYNAMIXEL_BUFFER_TOO_SMALL if buffer is too small for the message
  * @return             DYNAMIXEL_INVALID_MESSAGE if an invalid message was received
  */
-int dynamixel_read(dynamixel_t *device, dynamixel_addr_t reg, uint8_t *data, size_t length);
+int dynamixel_read(const dynamixel_t *device, dynamixel_addr_t reg, uint8_t *data, size_t length);
 
 #ifdef __cplusplus
 }

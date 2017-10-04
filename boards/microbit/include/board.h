@@ -16,6 +16,7 @@
  * @brief       Board specific configuration for the BBC micro:bit
  *
  * @author      Hauke Petersen <hauke.petersen@fu-berlin.de>
+ * @author      Sebastian Meiling <s@mlng.net>
  */
 
 #ifndef BOARD_H
@@ -32,8 +33,6 @@ extern "C" {
  * @name    Xtimer configuration
  * @{
  */
-#define XTIMER_DEV                  (0)
-#define XTIMER_CHAN                 (0)
 #define XTIMER_WIDTH                (24)
 #define XTIMER_BACKOFF              (40)
 /** @} */
@@ -61,7 +60,9 @@ extern "C" {
  * @{
  */
 #define BTN0_PIN                    GPIO_PIN(0, 17)
+#define BTN0_MODE                   GPIO_IN
 #define BTN1_PIN                    GPIO_PIN(0, 26)
+#define BTN1_MODE                   GPIO_IN
 /** @} */
 
 /**

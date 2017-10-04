@@ -27,29 +27,29 @@ extern "C" {
 #endif
 
 /**
- * @name Timer peripheral configuration
+ * @name    Timer configuration
+ *
+ * General purpose timers (GPT[0-3]) are configured consecutively and in order
+ * (without gaps) starting from GPT0, i.e. if multiple timers are enabled.
+ *
  * @{
  */
 static const timer_conf_t timer_config[] = {
     {
-        .dev      = GPTIMER0,
-        .channels = 2,
-        .cfg      = GPTMCFG_16_BIT_TIMER, /* required for XTIMER */
+        .chn = 2,
+        .cfg = GPTMCFG_16_BIT_TIMER, /* required for XTIMER */
     },
     {
-        .dev      = GPTIMER1,
-        .channels = 1,
-        .cfg      = GPTMCFG_32_BIT_TIMER,
+        .chn = 1,
+        .cfg = GPTMCFG_32_BIT_TIMER,
     },
     {
-        .dev      = GPTIMER2,
-        .channels = 1,
-        .cfg      = GPTMCFG_32_BIT_TIMER,
+        .chn = 2,
+        .cfg = GPTMCFG_16_BIT_TIMER,
     },
     {
-        .dev      = GPTIMER3,
-        .channels = 1,
-        .cfg      = GPTMCFG_32_BIT_TIMER,
+        .chn = 1,
+        .cfg = GPTMCFG_32_BIT_TIMER,
     },
 };
 
@@ -141,6 +141,19 @@ static const spi_conf_t spi_config[] = {
 };
 
 #define SPI_NUMOF           (sizeof(spi_config) / sizeof(spi_config[0]))
+/** @} */
+
+/**
+ * @name ADC configuration
+ * @{
+ */
+#define SOC_ADC_ADCCON_REF  SOC_ADC_ADCCON_REF_AVDD5
+
+static const adc_conf_t adc_config[] = {
+    GPIO_PIN(0, 6), /**< GPIO_PA6 = ADC_ALS_PIN */
+};
+
+#define ADC_NUMOF           (sizeof(adc_config) / sizeof(adc_config[0]))
 /** @} */
 
 /**

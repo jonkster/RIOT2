@@ -328,6 +328,18 @@ void at86rf2xx_set_cca_threshold(at86rf2xx_t *dev, int8_t value)
     at86rf2xx_reg_write(dev, AT86RF2XX_REG__CCA_THRES, value);
 }
 
+int8_t at86rf2xx_get_ed_level(at86rf2xx_t *dev)
+{
+    uint8_t tmp = at86rf2xx_reg_read(dev, AT86RF2XX_REG__PHY_ED_LEVEL);
+#if MODULE_AT86RF212B
+    /* AT86RF212B has different scale than the other variants */
+    int8_t ed = (int8_t)(((int16_t)tmp * 103) / 100) + RSSI_BASE_VAL;
+#else
+    int8_t ed = (int8_t)tmp + RSSI_BASE_VAL;
+#endif
+    return ed;
+}
+
 void at86rf2xx_set_option(at86rf2xx_t *dev, uint16_t option, bool state)
 {
     uint8_t tmp;
@@ -438,35 +450,37 @@ static inline void _set_state(at86rf2xx_t *dev, uint8_t state, uint8_t cmd)
      * in https://github.com/RIOT-OS/RIOT/pull/5244
      */
     if (state != AT86RF2XX_STATE_RX_AACK_ON) {
-        while (at86rf2xx_get_status(dev) != state);
+        while (at86rf2xx_get_status(dev) != state) {}
+    }
+    /* Although RX_AACK_ON state doesn't get read back,
+     * at least make sure if state transition is in progress or not
+     */
+    else {
+        while (at86rf2xx_get_status(dev) == AT86RF2XX_STATE_IN_PROGRESS) {}
     }
 
     dev->state = state;
 }
 
-void at86rf2xx_set_state(at86rf2xx_t *dev, uint8_t state)
+uint8_t at86rf2xx_set_state(at86rf2xx_t *dev, uint8_t state)
 {
-    uint8_t old_state = at86rf2xx_get_status(dev);
-
-    if (state == old_state) {
-        return;
-    }
-
-    if (state == AT86RF2XX_STATE_FORCE_TRX_OFF) {
-        _set_state(dev, AT86RF2XX_STATE_TRX_OFF, state);
-        return;
-    }
+    uint8_t old_state;
 
     /* make sure there is no ongoing transmission, or state transition already
      * in progress */
-    while (old_state == AT86RF2XX_STATE_BUSY_RX_AACK ||
-           old_state == AT86RF2XX_STATE_BUSY_TX_ARET ||
-           old_state == AT86RF2XX_STATE_IN_PROGRESS) {
+    do {
         old_state = at86rf2xx_get_status(dev);
+    } while (old_state == AT86RF2XX_STATE_BUSY_RX_AACK ||
+             old_state == AT86RF2XX_STATE_BUSY_TX_ARET ||
+             old_state == AT86RF2XX_STATE_IN_PROGRESS);
+
+    if (state == AT86RF2XX_STATE_FORCE_TRX_OFF) {
+        _set_state(dev, AT86RF2XX_STATE_TRX_OFF, state);
+        return old_state;
     }
 
     if (state == old_state) {
-        return;
+        return old_state;
     }
 
     /* we need to go via PLL_ON if we are moving between RX_AACK_ON <-> TX_ARET_ON */
@@ -493,18 +507,6 @@ void at86rf2xx_set_state(at86rf2xx_t *dev, uint8_t state)
     } else {
         _set_state(dev, state, state);
     }
-}
 
-void at86rf2xx_reset_state_machine(at86rf2xx_t *dev)
-{
-    uint8_t old_state;
-
-    at86rf2xx_assert_awake(dev);
-
-    /* Wait for any state transitions to complete before forcing TRX_OFF */
-    do {
-        old_state = at86rf2xx_get_status(dev);
-    } while (old_state == AT86RF2XX_STATE_IN_PROGRESS);
-
-    at86rf2xx_set_state(dev, AT86RF2XX_STATE_FORCE_TRX_OFF);
+    return old_state;
 }

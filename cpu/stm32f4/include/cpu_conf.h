@@ -31,7 +31,9 @@
 #include "vendor/stm32f410rx.h"
 #elif defined(CPU_MODEL_STM32F411RE)
 #include "vendor/stm32f411xe.h"
-#elif defined(CPU_MODEL_STM32F413ZH)
+#elif defined(CPU_MODEL_STM32F412ZG)
+#include "vendor/stm32f412zx.h"
+#elif defined(CPU_MODEL_STM32F413ZH) || defined(CPU_MODEL_STM32F413VG)
 #include "vendor/stm32f413xx.h"
 #elif defined(CPU_MODEL_STM32F415RG)
 #include "vendor/stm32f415xx.h"
@@ -50,7 +52,22 @@ extern "C" {
  * @{
  */
 #define CPU_DEFAULT_IRQ_PRIO            (1U)
+#if defined(CPU_MODEL_STM32F401RE)
+#define CPU_IRQ_NUMOF                   (85U)
+#elif defined(CPU_MODEL_STM32F407VG) || defined(CPU_MODEL_STM32F415RG)
 #define CPU_IRQ_NUMOF                   (82U)
+#elif defined(CPU_MODEL_STM32F410RB)
+#define CPU_IRQ_NUMOF                   (98U)
+#elif defined(CPU_MODEL_STM32F411RE)
+#define CPU_IRQ_NUMOF                   (86U)
+#elif defined(CPU_MODEL_STM32F412ZG) || defined(CPU_MODEL_STM32F446RE) \
+    || defined(CPU_MODEL_STM32F446ZE)
+#define CPU_IRQ_NUMOF                   (97U)
+#elif defined(CPU_MODEL_STM32F413ZH) || defined(CPU_MODEL_STM32F413VG)
+#define CPU_IRQ_NUMOF                   (102U)
+#elif defined(CPU_MODEL_STM32F429ZI)
+#define CPU_IRQ_NUMOF                   (91U)
+#endif
 #define CPU_FLASH_BASE                  FLASH_BASE
 /** @} */
 

@@ -16,6 +16,7 @@
  * @brief       Board specific definitions for the STM32F4Discovery evaluation board
  *
  * @author      Hauke Petersen <hauke.petersen@fu-berlin.de>
+ * @author      Sebastian Meiling <s@mlng.net>
  */
 
 #ifndef BOARD_H
@@ -32,8 +33,6 @@ extern "C" {
  * @name xtimer configuration
  * @{
  */
-#define XTIMER_DEV          TIMER_DEV(0)
-#define XTIMER_CHAN         (0)
 #define XTIMER_OVERHEAD     (6)
 #define XTIMER_BACKOFF      (10)
 /** @} */
@@ -78,8 +77,12 @@ extern "C" {
 
 /**
  * @brief User button
+ * @{
  */
-#define BTN_B1_PIN          GPIO_PIN(PORT_A, 0)
+#define BTN0_PIN            GPIO_PIN(PORT_A, 0)
+#define BTN0_MODE           GPIO_IN
+/** @} */
+
 
 /**
  * @brief Initialize board specific hardware, including clock, LEDs and std-IO

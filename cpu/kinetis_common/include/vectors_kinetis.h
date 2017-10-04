@@ -96,6 +96,7 @@ void isr_i2c2(void);         /**< I2C2 interrupt handler */
 void isr_i2s0_rx(void);      /**< I2S0 receive interrupt handler */
 void isr_i2s0_tx(void);      /**< I2S0 transmit interrupt handler */
 void isr_llwu(void);         /**< LLWU interrupt handler */
+void isr_lpuart0(void);      /**< LPUART0 interrupt handler */
 void isr_lptmr0(void);       /**< LPTMR0 interrupt handler */
 void isr_mcg(void);          /**< MCG interrupt handler */
 void isr_mcm(void);          /**< MCM interrupt handler */
@@ -135,11 +136,6 @@ void isr_uart5_rx_tx(void);  /**< UART5 receive/transmit interrupt handler */
 void isr_usb0(void);         /**< USB OTG interrupt handler */
 void isr_usbdcd(void);       /**< USB charger detection interrupt handler */
 void isr_wdog_ewm(void);     /**< WDOG and EWM interrupt handler */
-
-/**
- * @brief Interrupt vector pointer type
- */
-typedef void (*isr_func_t)(void);
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -80,6 +80,28 @@ typedef uint32_t gpio_t;
  */
 #define GPIO_MODE(io, pu, od)   (io | (pu << 1) | (od << 2))
 
+/**
+ * @name    ADC configuration, valid for all boards using this CPU
+ *
+ * The sam3 has a fixed mapping of ADC pins and a fixed number of ADC channels,
+ * so this ADC configuration is valid for all boards using this CPU. No need for
+ * any board specific configuration.
+ */
+#define ADC_NUMOF           (16U)
+
+/**
+ * @brief   DAC configuration, valid for all boards using this CPU
+ *
+ * The sam3 has a fixed mapping of DAC pins and a fixed number of DAC channels,
+ * so this DAC configuration is valid for all boards using this CPU. No need for
+ * any board specific configuration.
+ *
+ * The sam3's DAC channels are mapped to the following fixed pins:
+ * - line 0 (ch0): PB15
+ * - line 1 (ch1): PB16
+ */
+#define DAC_NUMOF           (2U)
+
 #ifndef DOXYGEN
 /**
  * @brief   Override GPIO modes
@@ -152,6 +174,21 @@ typedef enum {
     SPI_CLK_5MHZ   = (5000000),                     /**< 5MHz */
     SPI_CLK_10MHZ  = (10000000)                     /**< 10MHz */
 } spi_clk_t;
+/** @} */
+
+/**
+ * @brief   Override ADC resolution values
+ * @{
+ */
+#define HAVE_ADC_RES_T
+typedef enum {
+    ADC_RES_6BIT  = 0x1,                    /**< not applicable */
+    ADC_RES_8BIT  = 0x2,                    /**< not applicable */
+    ADC_RES_10BIT = ADC_MR_LOWRES_BITS_10,  /**< ADC resolution: 10 bit */
+    ADC_RES_12BIT = ADC_MR_LOWRES_BITS_12,  /**< ADC resolution: 12 bit */
+    ADC_RES_14BIT = 0x4,                    /**< not applicable */
+    ADC_RES_16BIT = 0x8                     /**< not applicable */
+} adc_res_t;
 /** @} */
 
 /**

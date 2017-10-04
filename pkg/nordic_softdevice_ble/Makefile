@@ -2,6 +2,7 @@ PKG_NAME = nordic_softdevice_ble
 PKG_VERSION = 3288530
 PKG_FILE = nrf5_iot_sdk_$(PKG_VERSION).zip
 PKG_URL = https://developer.nordicsemi.com/nRF5_IoT_SDK/nRF5_IoT_SDK_v0.9.x/$(PKG_FILE)
+PKG_MD5 = 291c875df69c51e22491e6112128bd9c
 PKG_LICENSE = nordic-bsd
 PKG_DIR=$(CURDIR)
 PKG_BUILDDIR=$(PKGDIRBASE)/$(PKG_NAME)
@@ -11,9 +12,11 @@ SOFTDEVICE := components/softdevice/s1xx_iot/s1xx-iot-prototype3_nrf52_softdevic
 BLE_6LOWPAN_LIB := components/iot/ble_6lowpan/lib/ble_6lowpan.a
 MODULE_MAKEFILE := $(PKG_DIR)/Makefile.module
 
-.PHONY: all clean distclean
+.PHONY: all prepare clean distclean
 
 all: $(BINDIR)/ble_6lowpan.a $(BINDIR)/softdevice.hex
+
+prepare: $(PKG_SRCDIR)/.extracted
 
 $(BINDIR)/ble_6lowpan.a: $(PKG_SRCDIR)/.extracted
 	cp $(PKG_SRCDIR)/$(BLE_6LOWPAN_LIB) $@
@@ -41,7 +44,7 @@ $(PKG_SRCDIR)/.extracted: $(PKG_BUILDDIR)/$(PKG_FILE)
 
 $(PKG_BUILDDIR)/$(PKG_FILE):
 	@mkdir -p $(@D)
-	$(Q)$(DOWNLOAD_TO_FILE) $@ $(PKG_URL)
+	$(Q)$(DLCACHE) $(PKG_URL) $(PKG_MD5) $@
 
 clean::
 	rm -rf $(PKG_SRCDIR)/

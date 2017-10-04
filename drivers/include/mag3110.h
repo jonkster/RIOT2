@@ -55,6 +55,10 @@ enum {
 #define MAG3110_I2C_ADDRESS             0x0E /**< Magnetometer Default Address */
 #endif
 
+/**
+ * @name    Output data rate macros
+ * @{
+ */
 #define MAG3110_DROS_8000_16    0 /**< Output Rate 80 Hz, Over Sample Ratio 16 */
 #define MAG3110_DROS_4000_32    1 /**< Output Rate 40 Hz, Over Sample Ratio 32 */
 #define MAG3110_DROS_2000_64    2 /**< Output Rate 20 Hz, Over Sample Ratio 64 */
@@ -88,6 +92,7 @@ enum {
 #define MAG3110_DROS_0016_64    30 /**< Output Rate 0.16 Hz, Over Sample Ratio 64 */
 #define MAG3110_DROS_0008_128   31 /**< Output Rate 0.08 Hz, Over Sample Ratio 128 */
 #define MAG3110_DROS_DEFAULT    MAG3110_DROS_0125_128 /**< Default Setting for testing */
+/** @} */
 
 /**
  * @brief   Configuration parameters
@@ -101,7 +106,7 @@ typedef struct {
 } mag3110_params_t;
 
 /**
- * @brief Device descriptor for MAG3110 magnetometer.
+ * @brief   Device descriptor for MAG3110 magnetometer.
  */
 typedef struct {
     mag3110_params_t params;    /**< device configuration parameters */
@@ -117,7 +122,7 @@ typedef struct {
 } mag3110_data_t;
 
 /**
- * @brief Initialise the MAG3110 magnetometer driver.
+ * @brief   Initialise the MAG3110 magnetometer driver.
  *
  * @param[out] dev          device descriptor of magnetometer to initialize
  * @param[in]  params       configuration parameters
@@ -130,7 +135,8 @@ typedef struct {
 int mag3110_init(mag3110_t *dev, const mag3110_params_t *params);
 
 /**
- * @brief Set user offset correction.
+ * @brief   Set user offset correction.
+ *
  * Offset correction register will be erased after accelerometer reset.
  *
  * @param[out] dev          device descriptor of magnetometer
@@ -141,30 +147,30 @@ int mag3110_init(mag3110_t *dev, const mag3110_params_t *params);
  * @return                  0 on success
  * @return                  -1 on error
  */
-int mag3110_set_user_offset(mag3110_t *dev, int16_t x, int16_t y, int16_t z);
+int mag3110_set_user_offset(const mag3110_t *dev, int16_t x, int16_t y, int16_t z);
 
 /**
- * @brief Set active mode, this enables periodic measurements.
+ * @brief   Set active mode, this enables periodic measurements.
  *
  * @param[out] dev          device descriptor of magnetometer
  *
  * @return                  0 on success
  * @return                  -1 on error
  */
-int mag3110_set_active(mag3110_t *dev);
+int mag3110_set_active(const mag3110_t *dev);
 
 /**
- * @brief Set standby mode.
+ * @brief   Set standby mode.
  *
  * @param[in]  dev          device descriptor of magnetometer
  *
  * @return                  0 on success
  * @return                  -1 on error
  */
-int mag3110_set_standby(mag3110_t *dev);
+int mag3110_set_standby(const mag3110_t *dev);
 
 /**
- * @brief Check for new set of measurement data.
+ * @brief   Check for new set of measurement data.
  *
  * @param[in]  dev          device descriptor of magnetometer
  *
@@ -172,10 +178,11 @@ int mag3110_set_standby(mag3110_t *dev);
  * @return                  0 if measurement is in progress
  * @return                  -1 on error
  */
-int mag3110_is_ready(mag3110_t *dev);
+int mag3110_is_ready(const mag3110_t *dev);
 
 /**
- * @brief Read magnetometer's data.
+ * @brief   Read magnetometer's data.
+ *
  * To get the actual values for the magnetic field in \f$\mu T\f$,
  * one have to divide the returned values from the magnetometer by 10.
  *
@@ -185,10 +192,10 @@ int mag3110_is_ready(mag3110_t *dev);
  * @return                  0 on success
  * @return                  -1 on error
  */
-int mag3110_read(mag3110_t *dev, mag3110_data_t *data);
+int mag3110_read(const mag3110_t *dev, mag3110_data_t *data);
 
 /**
- * @brief Read die temperature.
+ * @brief   Read die temperature.
  *
  * @param[in]  dev          device descriptor of magnetometer
  * @param[out] dtemp        die temperature
@@ -196,7 +203,7 @@ int mag3110_read(mag3110_t *dev, mag3110_data_t *data);
  * @return                  0 on success
  * @return                  -1 on error
  */
-int mag3110_read_dtemp(mag3110_t *dev, int8_t *dtemp);
+int mag3110_read_dtemp(const mag3110_t *dev, int8_t *dtemp);
 
 #ifdef __cplusplus
 }

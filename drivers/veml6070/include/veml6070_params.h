@@ -28,7 +28,7 @@ extern "C" {
 #endif
 
 /**
- * @brief   Set default configuration parameters for the VEML6070
+ * @name    Set default configuration parameters for the VEML6070
  * @{
  */
 #ifndef VEML6070_PARAM_I2C_DEV
@@ -59,9 +59,7 @@ static const veml6070_params_t veml6070_params[] =
  */
 static const saul_reg_info_t veml6070_saul_reg_info[] =
 {
-    {
-        .name = "veml6070-uv"
-    }
+    { .name = "veml6070" }
 };
 
 #ifdef __cplusplus

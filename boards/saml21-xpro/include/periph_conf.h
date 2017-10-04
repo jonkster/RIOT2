@@ -52,22 +52,34 @@ extern "C" {
  * @name    UART configuration
  * @{
  */
-#define UART_NUMOF          (1U)
-#define UART_0_EN           1
-#define UART_IRQ_PRIO       1
+static const uart_conf_t uart_config[] = {
+    {    /* Virtual COM Port */
+        .dev      = &SERCOM3->USART,
+        .rx_pin   = GPIO_PIN(PA,23),
+        .tx_pin   = GPIO_PIN(PA,22),
+        .mux      = GPIO_MUX_C,
+        .rx_pad   = UART_PAD_RX_1,
+        .tx_pad   = UART_PAD_TX_0,
+        .flags    = UART_FLAG_NONE,
+        .gclk_src = GCLK_PCHCTRL_GEN_GCLK0
+    },
+    {    /* EXT1 header */
+        .dev      = &SERCOM4->USART,
+        .rx_pin   = GPIO_PIN(PB, 9),
+        .tx_pin   = GPIO_PIN(PB, 8),
+        .mux      = GPIO_MUX_D,
+        .rx_pad   = UART_PAD_RX_1,
+        .tx_pad   = UART_PAD_TX_0,
+        .flags    = UART_FLAG_NONE,
+        .gclk_src = GCLK_PCHCTRL_GEN_GCLK0
+    }
+};
 
-/* UART 0 device configuration */
-#define UART_0_DEV          SERCOM3->USART
-#define UART_0_IRQ          SERCOM3_IRQn
+/* interrupt function name mapping */
 #define UART_0_ISR          isr_sercom3
-#define UART_0_REF_F        (16000000UL)
-#define UART_0_RUNSTDBY     1
+#define UART_1_ISR          isr_sercom4
 
-/* UART 0 pin configuration */
-#define UART_0_PORT         (PORT->Group[0])
-#define UART_0_TX_PIN       (22)
-#define UART_0_RX_PIN       (23)
-#define UART_0_PINS         (((PORT_PA22 | PORT_PA23) >> 16) | PORT_WRCONFIG_HWSEL)
+#define UART_NUMOF          (sizeof(uart_config) / sizeof(uart_config[0]))
 /** @} */
 
 /**
@@ -96,7 +108,23 @@ static const spi_conf_t spi_config[] = {
  * @name    I2C configuration
  * @{
  */
-#define I2C_NUMOF          (0)
+#define I2C_NUMOF          (1U)
+#define I2C_0_EN            1
+#define I2C_1_EN            0
+#define I2C_2_EN            0
+#define I2C_3_EN            0
+#define I2C_IRQ_PRIO        1
+
+#define I2C_0_DEV           SERCOM2->I2CM
+#define I2C_0_IRQ           SERCOM2_IRQn
+#define I2C_0_ISR           isr_sercom2
+/* I2C 0 GCLK */
+#define I2C_0_GCLK_ID       SERCOM2_GCLK_ID_CORE
+#define I2C_0_GCLK_ID_SLOW  SERCOM2_GCLK_ID_SLOW
+/* I2C 0 pin configuration */
+#define I2C_0_SDA           GPIO_PIN(PA, 8)
+#define I2C_0_SCL           GPIO_PIN(PA, 9)
+#define I2C_0_MUX           GPIO_MUX_D
 /** @} */
 
 /**

@@ -28,7 +28,23 @@ extern "C" {
 #endif
 
 /**
- * @brief Linker script provided symbol for CPUID location
+ * @brief   CPU specific LSI clock speed
+ */
+#if defined(CPU_FAM_STM32F0) || defined (CPU_FAM_STM32F1) || \
+    defined(CPU_FAM_STM32F3)
+#define CLOCK_LSI           (40000U)
+#elif defined(CPU_FAM_STM32F7) || defined(CPU_FAM_STM32L0) || \
+    defined(CPU_FAM_STM32L1)
+#define CLOCK_LSI           (37000U)
+#elif defined(CPU_FAM_STM32F2) || defined(CPU_FAM_STM32F4) || \
+    defined(CPU_FAM_STM32L4)
+#define CLOCK_LSI           (32000U)
+#else
+#error "error: LSI clock speed not defined for your target CPU"
+#endif
+
+/**
+ * @brief   Linker script provided symbol for CPUID location
  */
 extern uint32_t _cpuid_address;
 /**
@@ -189,6 +205,14 @@ typedef enum {
 /** @} */
 #endif /* ndef DOXYGEN */
 #endif /* ndef CPU_FAM_STM32F1 */
+
+/**
+ * @brief   DAC line configuration data
+ */
+typedef struct {
+    gpio_t pin;             /**< pin connected to the line */
+    uint8_t chan;           /**< DAC device used for this line */
+} dac_conf_t;
 
 /**
  * @brief   Timer configuration

@@ -7,8 +7,7 @@
  */
 
 /**
- * @defgroup    drivers_io1_xplained IO1_XPLAINED
- * @ingroup     drivers_sensors
+ * @ingroup     drivers_io1_xplained
  * @brief       Internal addresses, constants for the IO1 Xplained extension.
  * @{
  *
@@ -30,7 +29,7 @@ extern "C" {
 #endif
 
 /**
- * @name IO1 Xplained I2C addresses
+ * @name    IO1 Xplained I2C addresses
  * @{
  */
 #define TEMPERATURE_BASE_ADDR          (0x48)
@@ -38,14 +37,14 @@ extern "C" {
 /** @} */
 
 /**
- * @name IO1 Xplained LED pin
+ * @name    IO1 Xplained LED pin
  * @{
  */
 #define IO1_LED_PIN                    GPIO_PIN(0,18)
 /** @} */
 
 /**
- * @name IO1 Xplained gpio pins
+ * @name    IO1 Xplained gpio pins
  * @{
  */
 #define IO1_GPIO1_PIN                  GPIO_PIN(0,13)

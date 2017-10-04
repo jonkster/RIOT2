@@ -40,7 +40,7 @@ extern "C" {
 #endif
 
 /**
- * @name jc42 status return codes
+ * @name    jc42 status return codes
  * @{
  */
 #define JC42_OK                       (0)
@@ -58,7 +58,7 @@ typedef struct {
 } jc42_t;
 
 /**
- * @brief Device initialization parameters
+ * @brief   Device initialization parameters
  */
 typedef struct {
     i2c_t i2c;	        /**< I2C device that sensor is connected to */
@@ -67,7 +67,7 @@ typedef struct {
 } jc42_params_t;
 
 /**
- * @brief export SAUL endpoint
+ * @brief   Export SAUL endpoint
  */
 extern const saul_driver_t jc42_temperature_saul_driver;
 
@@ -81,7 +81,7 @@ extern const saul_driver_t jc42_temperature_saul_driver;
  * @return                   0 on success
  * @return                  -1 on error
  */
-int jc42_init(jc42_t* dev, jc42_params_t* params);
+int jc42_init(jc42_t* dev, const jc42_params_t* params);
 
 /**
  * @brief   Get content of configuration register
@@ -92,7 +92,7 @@ int jc42_init(jc42_t* dev, jc42_params_t* params);
  * @return                   0 on success
  * @return                  -1 on error
  */
-int jc42_get_config(jc42_t* dev, uint16_t* data);
+int jc42_get_config(const jc42_t* dev, uint16_t* data);
 
 /**
  * @brief   Set content of configuration register
@@ -103,7 +103,7 @@ int jc42_get_config(jc42_t* dev, uint16_t* data);
  * @return                   0 on success
  * @return                  -1 on error
  */
-int jc42_set_config(jc42_t* dev, uint16_t data);
+int jc42_set_config(const jc42_t* dev, uint16_t data);
 
 
 /**
@@ -115,11 +115,11 @@ int jc42_set_config(jc42_t* dev, uint16_t data);
  * @return                   0 on success
  * @return                  -1 on error
  */
-int jc42_get_temperature(jc42_t* dev, int16_t* temperature);
+int jc42_get_temperature(const jc42_t* dev, int16_t* temperature);
 
 #ifdef __cplusplus
 }
 #endif
 
-/** @} */
 #endif /* JC42_H */
+/** @} */
