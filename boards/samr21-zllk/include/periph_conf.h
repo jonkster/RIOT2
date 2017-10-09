@@ -1,24 +1,3 @@
-/*
- * Copyright (C) 2014-2015 Freie Universität Berlin
- *
- * This file is subject to the terms and conditions of the GNU Lesser
- * General Public License v2.1. See the file LICENSE in the top level
- * directory for more details.
- */
-
-/**
- * @ingroup     boards_samr21-xpro
- * @{
- *
- * @file
- * @brief       Configuration of CPU peripherals for the Atmel SAM R21 Xplained
- *              Pro board
- *
- * @author      Thomas Eichinger <thomas.eichinger@fu-berlin.de>
- * @author      Hauke Petersen <hauke.petersen@fu-berlin.de>
- * @author      Peter Kietzmann <peter.kietzmann@haw-hamburg.de>
- */
-
 #ifndef PERIPH_CONF_H
 #define PERIPH_CONF_H
 
@@ -32,17 +11,16 @@ extern "C" {
 #endif
 
 /**
- * @name   External oscillator and clock configuration
+ * @brief   External oscillator and clock configuration
  *
- * There are three choices for selection of CORECLOCK:
+ * For selection of the used CORECLOCK, we have implemented two choices:
  *
- * - usage of the 48 MHz DFLL fed by external oscillator running at 32 kHz
  * - usage of the PLL fed by the internal 8MHz oscillator divided by 8
  * - usage of the internal 8MHz oscillator directly, divided by N if needed
  *
  *
  * The PLL option allows for the usage of a wider frequency range and a more
- * stable clock with less jitter. This is why this option is default.
+ * stable clock with less jitter. This is why we use this option as default.
  *
  * The target frequency is computed from the PLL multiplier and the PLL divisor.
  * Use the following formula to compute your values:
@@ -71,12 +49,6 @@ extern "C" {
 #define CLOCK_PLL_DIV       (1U)                /* adjust to your needs */
 /* generate the actual used core clock frequency */
 #define CLOCK_CORECLOCK     (((CLOCK_PLL_MUL + 1) * 1000000U) / CLOCK_PLL_DIV)
-#elif CLOCK_USE_XOSC32_DFLL
-    /* Settings for 32 kHz external oscillator and 48 MHz DFLL */
-#define CLOCK_CORECLOCK     (48000000U)
-#define CLOCK_XOSC32K       (32768UL)
-#define CLOCK_8MHZ          (1)
-#define GEN2_ULP32K         (1)
 #else
 /* edit this value to your needs */
 #define CLOCK_DIV           (1U)
@@ -86,7 +58,7 @@ extern "C" {
 /** @} */
 
 /**
- * @name    Timer peripheral configuration
+ * @name Timer peripheral configuration
  * @{
  */
 #define TIMER_NUMOF         (2U)
@@ -107,41 +79,37 @@ extern "C" {
 /** @} */
 
 /**
- * @name    UART configuration
+ * @name UART configuration
  * @{
  */
 static const uart_conf_t uart_config[] = {
     {
-        .dev    = &SERCOM0->USART,
-        .rx_pin = GPIO_PIN(PA,5),
-        .tx_pin = GPIO_PIN(PA,4),
-        .mux    = GPIO_MUX_D,
+        .dev    = &SERCOM3->USART,
+        .rx_pin = GPIO_PIN(PA,27),
+        .tx_pin = GPIO_PIN(PA,28),
+        .mux    = GPIO_MUX_F,
         .rx_pad = UART_PAD_RX_1,
-        .tx_pad = UART_PAD_TX_0,
-        .flags  = UART_FLAG_NONE,
-        .gclk_src = GCLK_CLKCTRL_GEN_GCLK0
+        .tx_pad = UART_PAD_TX_0
     },
     {
         .dev    = &SERCOM5->USART,
-        .rx_pin = GPIO_PIN(PA,23),
-        .tx_pin = GPIO_PIN(PA,22),
+        .rx_pin = GPIO_PIN(PA,2),
+        .tx_pin = GPIO_PIN(PA,3),
         .mux    = GPIO_MUX_D,
         .rx_pad = UART_PAD_RX_1,
-        .tx_pad = UART_PAD_TX_0,
-        .flags  = UART_FLAG_NONE,
-        .gclk_src = GCLK_CLKCTRL_GEN_GCLK0
+        .tx_pad = UART_PAD_TX_0
     }
 };
 
 /* interrupt function name mapping */
-#define UART_0_ISR          isr_sercom0
+#define UART_0_ISR          isr_sercom3
 #define UART_1_ISR          isr_sercom5
 
 #define UART_NUMOF          (sizeof(uart_config) / sizeof(uart_config[0]))
 /** @} */
 
 /**
- * @name    PWM configuration
+ * @name PWM configuration
  * @{
  */
 #define PWM_0_EN            1
@@ -176,7 +144,7 @@ static const pwm_conf_t pwm_config[] = {
 /** @} */
 
 /**
- * @name    SPI configuration
+ * @name SPI configuration
  * @{
  */
 static const spi_conf_t spi_config[] = {
@@ -193,22 +161,25 @@ static const spi_conf_t spi_config[] = {
     },
     {
         .dev      = &SERCOM5->SPI,
-        .miso_pin = GPIO_PIN(PB, 2),
-        .mosi_pin = GPIO_PIN(PB, 22),
-        .clk_pin  = GPIO_PIN(PB, 23),
+        .miso_pin = GPIO_PIN(PB, 22),
+        .mosi_pin = GPIO_PIN(PB, 2),
+        .clk_pin  = GPIO_PIN(PB, 3),
         .miso_mux = GPIO_MUX_D,
         .mosi_mux = GPIO_MUX_D,
         .clk_mux  = GPIO_MUX_D,
-        .miso_pad = SPI_PAD_MISO_0,
-        .mosi_pad = SPI_PAD_MOSI_2_SCK_3
+        .miso_pad = SPI_PAD_MISO_2,
+        .mosi_pad = SPI_PAD_MOSI_0_SCK_1
     }
 };
 
-#define SPI_NUMOF           (sizeof(spi_config) / sizeof(spi_config[0]))
+//#define SPI_NUMOF           (sizeof(spi_config) / sizeof(spi_config[0]))
+#define SPI_NUMOF          2
+#define SPI_0_EN           1
+#define SPI_1_EN           1
 /** @} */
 
 /**
- * @name    I2C configuration
+ * @name I2C configuration
  * @{
  */
 #define I2C_NUMOF          (1U)
@@ -218,9 +189,9 @@ static const spi_conf_t spi_config[] = {
 #define I2C_3_EN            0
 #define I2C_IRQ_PRIO        1
 
-#define I2C_0_DEV           SERCOM3->I2CM
-#define I2C_0_IRQ           SERCOM3_IRQn
-#define I2C_0_ISR           isr_sercom3
+#define I2C_0_DEV           SERCOM1->I2CM
+#define I2C_0_IRQ           SERCOM1_IRQn
+#define I2C_0_ISR           isr_sercom1
 /* I2C 0 GCLK */
 #define I2C_0_GCLK_ID       SERCOM3_GCLK_ID_CORE
 #define I2C_0_GCLK_ID_SLOW  SERCOM3_GCLK_ID_SLOW
@@ -230,7 +201,7 @@ static const spi_conf_t spi_config[] = {
 #define I2C_0_MUX           GPIO_MUX_D
 
 /**
- * @name    RTC configuration
+ * @name RTC configuration
  * @{
  */
 #define RTC_NUMOF           (1U)
@@ -238,7 +209,7 @@ static const spi_conf_t spi_config[] = {
 /** @} */
 
 /**
- * @name    RTT configuration
+ * @name RTT configuration
  * @{
  */
 #define RTT_NUMOF           (1U)
@@ -251,33 +222,6 @@ static const spi_conf_t spi_config[] = {
 #define RTT_RUNSTDBY        (1)         /* Keep RTT running in sleep states */
 /** @} */
 
-/**
- * @name ADC Configuration
- * @{
- */
-#define ADC_0_EN                           1
-#define ADC_MAX_CHANNELS                   14
-/* ADC 0 device configuration */
-#define ADC_0_DEV                          ADC
-#define ADC_0_IRQ                          ADC_IRQn
-
-/* ADC 0 Default values */
-#define ADC_0_CLK_SOURCE                   0 /* GCLK_GENERATOR_0 */
-#define ADC_0_PRESCALER                    ADC_CTRLB_PRESCALER_DIV512
-
-#define ADC_0_NEG_INPUT                    ADC_INPUTCTRL_MUXNEG_GND
-#define ADC_0_GAIN_FACTOR_DEFAULT          ADC_INPUTCTRL_GAIN_1X
-#define ADC_0_REF_DEFAULT                  ADC_REFCTRL_REFSEL_INT1V
-
-static const adc_conf_chan_t adc_channels[] = {
-    /* port, pin, muxpos */
-    {GPIO_PIN(PA, 6), ADC_INPUTCTRL_MUXPOS_PIN6},      /* EXT1, pin 3 */
-    {GPIO_PIN(PA, 7), ADC_INPUTCTRL_MUXPOS_PIN7},      /* EXT1, pin 4 */
-};
-
-#define ADC_0_CHANNELS                     (2U)
-#define ADC_NUMOF                          ADC_0_CHANNELS
-/** @} */
 #ifdef __cplusplus
 }
 #endif
