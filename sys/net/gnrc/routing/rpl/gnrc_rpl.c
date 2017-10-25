@@ -127,8 +127,28 @@ gnrc_rpl_instance_t *gnrc_rpl_root_init(uint8_t instance_id, ipv6_addr_t *dodag_
     return inst;
 }
 
+void dump_pkt(gnrc_pktsnip_t *pkt)
+{
+    gnrc_pktsnip_t *snip = pkt;
+
+    uint64_t now_us = xtimer_usec_from_ticks64(xtimer_now64());
+
+    printf("rftest-rx --- len 0x%02x lqi 0x%02x rx_time 0x%08" PRIx32 "%08" PRIx32 "\n\n",
+            gnrc_pkt_len(pkt), 0, (uint32_t)(now_us >> 32), (uint32_t)(now_us & 0xffffffff));
+
+    while (snip) {
+        for (size_t i = 0; i < snip->size; i++) {
+            printf("0x%02x ", ((uint8_t *)(snip->data))[i]);
+        }
+        snip = snip->next;
+    }
+    puts("\n");
+
+}
+
 static void _receive(gnrc_pktsnip_t *icmpv6)
 {
+
     gnrc_pktsnip_t *ipv6, *netif;
     ipv6_hdr_t *ipv6_hdr;
     icmpv6_hdr_t *icmpv6_hdr;
@@ -150,7 +170,7 @@ static void _receive(gnrc_pktsnip_t *icmpv6)
     icmpv6_hdr = (icmpv6_hdr_t *)icmpv6->data;
     switch (icmpv6_hdr->code) {
         case GNRC_RPL_ICMPV6_CODE_DIS:
-            DEBUG("RPL: DIS received\n");
+            DEBUG("RPL: DIS received, calling gnrc_rpl_recv_DIS!\n");
             gnrc_rpl_recv_DIS((gnrc_rpl_dis_t *)(icmpv6_hdr + 1), iface, &ipv6_hdr->src,
                               &ipv6_hdr->dst, byteorder_ntohs(ipv6_hdr->len));
             break;
@@ -210,6 +230,7 @@ static void *_event_loop(void *args)
     while (1) {
         DEBUG("RPL: waiting for incoming message.\n");
         msg_receive(&msg);
+                DEBUG("RPL: got message...\n");
 
         switch (msg.type) {
             case GNRC_RPL_MSG_TYPE_LIFETIME_UPDATE:
@@ -228,6 +249,7 @@ static void *_event_loop(void *args)
                 _receive(msg.content.ptr);
                 break;
             case GNRC_NETAPI_MSG_TYPE_SND:
+                DEBUG("RPL: type send\n");
                 break;
             case GNRC_NETAPI_MSG_TYPE_GET:
             case GNRC_NETAPI_MSG_TYPE_SET:
@@ -236,6 +258,7 @@ static void *_event_loop(void *args)
                 msg_reply(&msg, &reply);
                 break;
             default:
+                DEBUG("RPL: unknown message type\n");
                 break;
         }
     }

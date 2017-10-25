@@ -280,7 +280,6 @@ void gnrc_rpl_recv_DIS(gnrc_rpl_dis_t *dis, kernel_pid_t iface, ipv6_addr_t *src
         return;
     }
 #endif
-
     if (ipv6_addr_is_multicast(dst)) {
         for (uint8_t i = 0; i < GNRC_RPL_INSTANCES_NUMOF; ++i) {
             if ((gnrc_rpl_instances[i].state != 0)

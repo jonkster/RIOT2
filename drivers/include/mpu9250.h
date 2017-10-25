@@ -80,7 +80,8 @@ extern "C" {
  * @{
  */
 #define MPU9250_COMP_MODE_SLEEP_US  (1000)
-#define MPU9250_BYPASS_SLEEP_US     (3000)
+//#define MPU9250_BYPASS_SLEEP_US     (3000)
+#define MPU9250_BYPASS_SLEEP_US     (1500)
 #define MPU9250_PWR_CHANGE_SLEEP_US (50000)
 #define MPU9250_RESET_SLEEP_US      (100000)
 /** @} */
