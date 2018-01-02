@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright (C) 2016 Kaspar Schleiser <kaspar@schleiser.de>
+# Copyright (C) 2017 Freie Universität Berlin
 #
 # This file is subject to the terms and conditions of the GNU Lesser
 # General Public License v2.1. See the file LICENSE in the top level
@@ -13,7 +13,8 @@ sys.path.append(os.path.join(os.environ['RIOTBASE'], 'dist/tools/testrunner'))
 import testrunner
 
 def testfunc(child):
-    child.expect(u"OK \\([0-9]+ tests\\)")
+    child.expect_exact("Testing floating point arithmetics...")
+    child.expect_exact("[SUCCESS]")
 
 if __name__ == "__main__":
-    sys.exit(testrunner.run(testfunc, timeout=60))
+    sys.exit(testrunner.run(testfunc))
