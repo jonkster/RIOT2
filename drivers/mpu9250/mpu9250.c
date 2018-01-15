@@ -702,7 +702,7 @@ int mpu9250_read_compass(mpu9250_t *dev, mpu9250_results_t *output)
     }
     else
     {
-        puts("not rdy");
+        puts("compass not rdy");
         return -1;
     }
 

@@ -254,7 +254,7 @@ static void _send(gnrc_pktsnip_t *pkt)
         return;
     }
 #endif
-    DEBUG("6lo: iface->max_frag_size = %" PRIu16 " for interface %"
+    DEBUG("6lo: iface->max_frag_size = %" PRIu16 " for interface #%"
           PRIkernel_pid "\n", iface->max_frag_size, hdr->if_pid);
 
     /* IP should not send anything here if it is not a 6LoWPAN interface,

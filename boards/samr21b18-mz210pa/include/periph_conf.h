@@ -41,16 +41,16 @@ extern "C" {
  *
  * @{
  */
-#define CLOCK_USE_PLL       (1)
+#define CLOCK_USE_PLL       (1) // default is 1
 
 #if CLOCK_USE_PLL
 /* edit these values to adjust the PLL output frequency */
-#define CLOCK_PLL_MUL       (47U)               /* must be >= 31 & <= 95 */
-#define CLOCK_PLL_DIV       (1U)                /* adjust to your needs */
+#define CLOCK_PLL_MUL       (85U)               /* must be >= 31 & <= 95 (default 47U) */
+#define CLOCK_PLL_DIV       (2U)                /* adjust to your needs (default 1U) */
 /* generate the actual used core clock frequency */
 #define CLOCK_CORECLOCK     (((CLOCK_PLL_MUL + 1) * 1000000U) / CLOCK_PLL_DIV)
 #else
-/* edit this value to your needs */
+/* edit this value to your needs  (default 1U) */
 #define CLOCK_DIV           (1U)
 /* generate the actual core clock frequency */
 #define CLOCK_CORECLOCK     (8000000 / CLOCK_DIV)

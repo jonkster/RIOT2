@@ -176,7 +176,6 @@ int _gnrc_rpl_send_dis(void)
 {
     gnrc_rpl_send_DIS(NULL, (ipv6_addr_t *) &ipv6_addr_all_rpl_nodes);
 
-    puts("success: send a DIS\n");
     return 0;
 }
 
