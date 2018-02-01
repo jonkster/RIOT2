@@ -255,7 +255,7 @@ int mpu9250_init(mpu9250_t *dev, i2c_t i2c, mpu9250_hw_addr_t hw_addr,
     i2c_read_reg(dev->i2c_dev, dev->hw_addr, MPU9250_WHO_AM_I_REG, data);
     if (data[0] != MPU9250_WHOAMI_ANSWER) {
         DEBUG("[Error] Wrong answer from MPU\n");
-        printf("got 0x%x instead of 0x%x\n", data[0], MPU9250_WHOAMI_ANSWER);
+        printf("mpu: got 0x%x instead of 0x%x\n", data[0], MPU9250_WHOAMI_ANSWER);
         i2c_release(dev->i2c_dev);
         return -1;
     }
@@ -905,7 +905,7 @@ static int compass_init(mpu9250_t *dev)
     i2c_read_reg(dev->i2c_dev, dev->comp_addr, COMPASS_WHOAMI_REG, data);
     if (data[0] != MPU9250_COMP_WHOAMI_ANSWER) {
         puts("[Error] Wrong answer from compass");
-        printf("got 0x%x instead of 0x%x\n", data[0], MPU9250_COMP_WHOAMI_ANSWER);
+        printf("compass: got 0x%x instead of 0x%x\n", data[0], MPU9250_COMP_WHOAMI_ANSWER);
         i2c_release(dev->i2c_dev);
         return -1;
     }
